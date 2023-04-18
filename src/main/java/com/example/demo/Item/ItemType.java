@@ -1,0 +1,31 @@
+package com.example.demo.Item;
+
+public enum ItemType {
+  ARTICLE,
+  DOCUMENT,
+  BOOK,
+  Q_AND_A,
+  INFO_CARD,
+  VIDEO,
+  ELEARNING,
+  INFOGRAPHIC,
+  AUDIO,
+  SLIDES,
+  IMAGE,
+  PROJECT,
+  CLASSROOM,
+  COACHING,
+  COURSE,
+  EVENT,
+  PRESENTATION,
+  MEETING,
+  WEBINAR,
+  ACTION,
+  TEST,
+  QA,
+  ANNOUNCEMENT,
+  NEWSLETTER,
+  REMINDER,
+  WEBSITE,
+  OTHER
+}
