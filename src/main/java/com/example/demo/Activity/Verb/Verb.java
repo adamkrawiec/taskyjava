@@ -1,8 +1,9 @@
-package com.example.demo.Activity;
+package com.example.demo.Activity.Verb;
 
 import java.util.Set;
 import jakarta.persistence.*;
 
+import com.example.demo.Activity.Activity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity

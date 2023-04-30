@@ -5,12 +5,41 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 class ActivityServiceImpl implements ActivityService {
   @Autowired
   private ActivityRepository activityRepository;
+
+  public Page<Activity> filterActivitiesForItem(
+    Pageable pageable,
+    Long itemId,
+    Map<String, String> filterParams
+  ) {
+    Specification<Activity> activitiesSpecifications = ActivitySpecifications.getActivitiesForItem(itemId);
+    
+    activitiesSpecifications = commonActivitiesFilters(
+      activitiesSpecifications,
+      filterParams
+    );
+    
+    return activityRepository.findAll(activitiesSpecifications, pageable);
+  }
+
+  public Page<Activity> filterActivitiesForUser(
+    Pageable pageable,
+    Long userId,
+    Map<String, String> filterParams
+  ) {
+    Specification<Activity> activitiesSpecifications = ActivitySpecifications.getActivitiesForItems();
+    activitiesSpecifications = commonActivitiesFilters(
+      activitiesSpecifications,
+      filterParams
+    );
+    
+    return activityRepository.findAll(activitiesSpecifications, pageable);
+  }
 
   private Specification<Activity> verbIdSpecifivation(
     Specification<Activity> activitiesSpecifications,
@@ -49,83 +78,25 @@ class ActivityServiceImpl implements ActivityService {
 
   private Specification<Activity> commonActivitiesFilters(
     Specification<Activity> activitiesSpecifications,
-    Optional<Long> itemId,
-    Optional<Long> userId,
-    Optional<Long> verbId,
-    Optional<Boolean> completed
+    Map<String, String> filterParams
   ) {
 
-    if(itemId.isPresent()) {
-      activitiesSpecifications = itemIdSpecifivation(activitiesSpecifications, itemId.get());
+    if(filterParams.get("itemId") != null) {
+      activitiesSpecifications = itemIdSpecifivation(activitiesSpecifications, Long.parseLong(filterParams.get("itemId")));
     }
 
-    if(verbId.isPresent()) {
-      activitiesSpecifications = verbIdSpecifivation(activitiesSpecifications, verbId.get());
+    if(filterParams.get("verbId") != null) {
+      activitiesSpecifications = verbIdSpecifivation(activitiesSpecifications, Long.parseLong(filterParams.get("verbId")));
     }
 
-    if(userId.isPresent()) {
-      activitiesSpecifications = userIdSpecifivation(activitiesSpecifications, userId.get());
+    if(filterParams.get("userId") != null) {
+      activitiesSpecifications = userIdSpecifivation(activitiesSpecifications, Long.parseLong(filterParams.get("userId")));
     }
 
-    if(completed.isPresent()) {
+    if(filterParams.get("completed") != null) {
       activitiesSpecifications = completedSpecifivation(activitiesSpecifications);
     }
 
     return activitiesSpecifications;
-  }
-
-  public Page<Activity> filterActivitiesForItem(
-    Pageable pageable,
-    Long itemId,
-    Optional<Long> userId,
-    Optional<Long> verbId,
-    Optional<Boolean> completed
-  ) {
-    Specification<Activity> activitiesSpecifications = ActivitySpecifications.getActivitiesForItem(itemId);
-    
-    activitiesSpecifications = commonActivitiesFilters(
-      activitiesSpecifications,
-      Optional.ofNullable(null),
-      userId,
-      verbId,
-      completed
-    );
-    
-    return activityRepository.findAll(activitiesSpecifications, pageable);
-  }
-
-  public Page<Activity> filterActivitiesForUser(
-    Pageable pageable,
-    Long userId
-  ) {
-    Specification<Activity> activitiesSpecifications = ActivitySpecifications.getActivitiesForItems();
-    activitiesSpecifications = commonActivitiesFilters(
-      activitiesSpecifications,
-      Optional.ofNullable(null),
-      Optional.ofNullable(userId),
-      Optional.ofNullable(null),
-      Optional.ofNullable(null)
-    );
-    
-    return activityRepository.findAll(activitiesSpecifications, pageable);
-  }
-
-  public Page<Activity> filterActivitiesForUser(
-    Pageable pageable,
-    Long userId,
-    Optional<Long> itemId,
-    Optional<Long> verbId,
-    Optional<Boolean> completed
-  ) {
-    Specification<Activity> activitiesSpecifications = ActivitySpecifications.getActivitiesForItems();
-    activitiesSpecifications = commonActivitiesFilters(
-      activitiesSpecifications,
-      itemId,
-      Optional.ofNullable(userId),
-      verbId,
-      completed
-    );
-    
-    return activityRepository.findAll(activitiesSpecifications, pageable);
   }
 }

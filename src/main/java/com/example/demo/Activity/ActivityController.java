@@ -1,10 +1,13 @@
 package com.example.demo.Activity;
 
 import com.example.demo.Activity.ActivityCount.*;
+import com.example.demo.Activity.Verb.Verb;
+import com.example.demo.Activity.Verb.VerbRepository;
 
 import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
 
 import io.micrometer.common.lang.Nullable;
 
@@ -51,13 +54,11 @@ public class ActivityController {
   public PagedModel<ActivityModel> userActivities(
     @PathVariable(name = "userId") Long userId,
     @RequestParam(name = "page", defaultValue = "0") int page,
-    @Nullable @RequestParam(name = "verbId") Optional<Long> verbId,
-    @Nullable @RequestParam(name = "itemId") Optional<Long> itemId,
-    @Nullable @RequestParam(name = "completed") Optional<Boolean> completed
+    @RequestParam Map<String, String> filterParams
   ) {
     Pageable pageable = PageRequest.of(page, 10);
 
-    Page<Activity> activities = activityService.filterActivitiesForUser(pageable, userId, itemId, verbId, completed);
+    Page<Activity> activities = activityService.filterActivitiesForUser(pageable, userId, filterParams);
 
 
     return pagedResourcesAssembler.toModel(activities, activityModelAssembler);
@@ -67,13 +68,11 @@ public class ActivityController {
   public PagedModel<ActivityModel> getItemActivities(
     @PathVariable(name = "itemId") Long itemId,
     @RequestParam(name = "page", defaultValue = "0") int page,
-    @Nullable @RequestParam(name = "verbId") Optional<Long> verbId,
-    @Nullable @RequestParam(name = "userId") Optional<Long> userId,
-    @Nullable @RequestParam(name = "completed") Optional<Boolean> completed
+    @RequestParam Map<String, String> filterParams
   ) {
     Pageable pageable = PageRequest.of(page, 20);
     
-    Page<Activity> activities = activityService.filterActivitiesForItem(pageable, itemId, userId, verbId, completed);
+    Page<Activity> activities = activityService.filterActivitiesForItem(pageable, itemId, filterParams);
 
     return pagedResourcesAssembler.toModel(activities, activityModelAssembler);
   }

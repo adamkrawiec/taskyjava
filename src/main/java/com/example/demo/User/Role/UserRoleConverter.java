@@ -1,10 +1,10 @@
-package com.example.demo.User;
+package com.example.demo.User.Role;
 
 import jakarta.persistence.Converter;
 import jakarta.persistence.AttributeConverter;
 
 @Converter
-public class UserRoleConverter  implements AttributeConverter<UserRole, Integer>{
+public class UserRoleConverter implements AttributeConverter<UserRole, Integer>{
   
   @Override
   public Integer convertToDatabaseColumn(UserRole role) {

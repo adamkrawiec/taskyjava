@@ -1,7 +1,10 @@
 package com.example.demo.Item;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import org.springframework.hateoas.RepresentationModel;
+
+import com.example.demo.Item.UserModel.ItemUserModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +22,7 @@ public class ItemModel extends RepresentationModel<ItemModel>{
   private String title;
   private String description;
   private ItemType itemType;
-  private Date createdAt;
+  private LocalDateTime createdAt;
   private ItemVisibility visibility;
   private ItemUserModel user;
 }

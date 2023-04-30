@@ -1,19 +1,18 @@
 package com.example.demo.User;
 
 import com.example.demo.Activity.Activity;
+import com.example.demo.User.Role.UserRole;
+import com.example.demo.User.Role.UserRoleConverter;
+import com.example.demo.User.AssignedItemUser.AssignedItemUser;
+
 import java.util.Date;
 import java.util.Set;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import java.util.HashSet;
 
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
   @Id
   @GeneratedValue
@@ -42,7 +41,10 @@ public class User {
   @Column(name = "manager")
   private Boolean isManager;
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = true)
+  @Column(name = "manager_id", updatable = false, insertable = false)
+  private Long managerId;
+
+  @ManyToOne(optional = true)
   @JoinColumn(name = "manager_id", referencedColumnName = "id")
   // write custom on delete set to null
   private User manager;
@@ -50,9 +52,10 @@ public class User {
   @OneToMany(mappedBy = "user")
   private Set<Activity> activities;
 
-  @Column(name = "manager_id", updatable = false, insertable = false)
-  private Long managerId;
 
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private Set<AssignedItemUser> assignedItemUsers = new HashSet<AssignedItemUser>();
+  
   public User() {
 
   } 
@@ -123,6 +126,14 @@ public class User {
   
   public Long getManagerId() {
     return this.managerId;
+  }
+  
+  public Set<Activity> getActivities() {
+    return this.activities;
+  }
+
+  public Set<AssignedItemUser> getAssignedItemUsers() {
+    return this.assignedItemUsers;
   }
 }
 

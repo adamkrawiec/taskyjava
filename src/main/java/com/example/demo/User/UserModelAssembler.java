@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import org.springframework.hateoas.Link;
 
 @Component
 public class UserModelAssembler extends RepresentationModelAssemblerSupport<User, UserModel> {
@@ -17,6 +16,10 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
 
   @Override
   public UserModel toModel(User user) {
+    return assembleUserModel(user);
+  }
+
+  private UserModel assembleUserModel(User user) {
     UserModel userModel = instantiateModel(user);
 
     userModel.setId(user.getId());
@@ -40,11 +43,17 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
       );
     }
 
+    userModel.add(
+      linkTo(
+        methodOn(ActivityController.class).userActivities(user.getId(), 0, null )
+      ).withRel("activities")
+    );
 
     userModel.add(
       linkTo(
-        methodOn(ActivityController.class).userActivities(user.getId(), 0)).withRel("activities")
-      );
+        methodOn(UserController.class).assingedItems(user.getId(), 0)
+      ).withRel("assigned_items")
+    );
 
     return userModel;
   }

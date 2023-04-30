@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.Activity.ActivityItem.ActivityItemModelAssembler;
 import com.example.demo.Item.ItemController;
 import com.example.demo.User.UserController;
 import com.example.demo.User.UserModelAssembler;

@@ -1,5 +1,7 @@
 package com.example.demo.Activity;
 
+import com.example.demo.Activity.ActivityItem.ItemModel;
+import com.example.demo.Activity.Verb.Verb;
 import com.example.demo.User.UserModel;
 
 import org.springframework.hateoas.RepresentationModel;

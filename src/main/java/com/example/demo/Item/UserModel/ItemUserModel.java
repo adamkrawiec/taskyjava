@@ -1,4 +1,4 @@
-package com.example.demo.Item;
+package com.example.demo.Item.UserModel;
 
 import com.example.demo.User.User;
 import org.springframework.hateoas.RepresentationModel;

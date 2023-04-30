@@ -3,6 +3,8 @@ package com.example.demo.User;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import com.example.demo.User.Role.UserRole;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Relation(collectionRelation = "users", itemRelation = "user")
 public class UserModel extends RepresentationModel<UserModel>{
   private Long id;

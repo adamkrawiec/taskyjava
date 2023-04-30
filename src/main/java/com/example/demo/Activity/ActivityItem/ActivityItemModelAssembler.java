@@ -1,4 +1,4 @@
-package com.example.demo.Activity;
+package com.example.demo.Activity.ActivityItem;
 
 import com.example.demo.Item.Item;
 import com.example.demo.Item.ItemController;

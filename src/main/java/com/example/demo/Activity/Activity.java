@@ -7,6 +7,7 @@ import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedAttributeNode;
 
 import com.example.demo.User.User;
+import com.example.demo.Activity.Verb.Verb;
 import com.example.demo.Item.Item;
 
 import java.io.Serializable;

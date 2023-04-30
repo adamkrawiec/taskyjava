@@ -1,6 +1,7 @@
 package com.example.demo.Item;
 
 import com.example.demo.Activity.ActivityController;
+import com.example.demo.Item.UserModel.ItemUserModelAssembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -50,7 +51,8 @@ public class ItemModelAssembler extends RepresentationModelAssemblerSupport<Item
     return linkTo(
       methodOn(ActivityController.class).getItemActivities(
         item.getId(),
-        0
+        0,
+        null
       )
     )
     .withRel("activities");

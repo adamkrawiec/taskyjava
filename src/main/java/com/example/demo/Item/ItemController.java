@@ -2,11 +2,21 @@ package com.example.demo.Item;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.utils.Slug;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.web.PagedResourcesAssembler;
 
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.PagedModel;
+
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -20,8 +30,18 @@ public class ItemController {
   private ItemModelAssembler itemModelAssembler;
 
   @Autowired
-  private PagedResourcesAssembler<Item> pagedResourcesAssembler;  
+  private PagedResourcesAssembler<Item> pagedResourcesAssembler;
   
+  @PostMapping("/items")
+  public ItemModel createItem(@Valid @RequestBody Item itemBody) {
+    LocaleContextHolder.setLocale(new Locale.Builder().setLanguage("en").build());
+
+    itemBody.setLocale(LocaleContextHolder.getLocale().getLanguage());
+    itemBody.setSlug(Slug.toSlug(itemBody.getTitle()));
+    Item item = itemRepository.save(itemBody);
+
+    return itemModelAssembler.toModel(item);
+  }
 
   @GetMapping("/items")
   public PagedModel<ItemModel> itemsIndex(

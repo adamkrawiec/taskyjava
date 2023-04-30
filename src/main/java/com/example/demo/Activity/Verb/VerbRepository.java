@@ -1,4 +1,4 @@
-package com.example.demo.Activity;
+package com.example.demo.Activity.Verb;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
