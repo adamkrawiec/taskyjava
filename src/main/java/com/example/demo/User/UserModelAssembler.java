@@ -1,6 +1,7 @@
 package com.example.demo.User;
 
 import com.example.demo.Activity.ActivityController;
+import com.example.demo.User.AssignedItemUser.AssignedItemUserController;
 
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,7 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
 
     userModel.add(
       linkTo(
-        methodOn(UserController.class).assingedItems(user.getId(), 0)
+        methodOn(AssignedItemUserController.class).assingedItems(user.getId(), 0)
       ).withRel("assigned_items")
     );
 

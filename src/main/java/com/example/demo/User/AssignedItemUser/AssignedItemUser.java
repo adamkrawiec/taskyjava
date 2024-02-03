@@ -10,6 +10,13 @@ import com.example.demo.User.User;
 
 @Entity
 @Table(name = "new_assigned_item_users")
+@NamedEntityGraph(
+  name = "AssignedItemUser.itemUser",
+  attributeNodes = {
+    @NamedAttributeNode("user"),
+    @NamedAttributeNode("item")
+  }
+)
 public class AssignedItemUser {
   @Id
   private BigInteger id;
